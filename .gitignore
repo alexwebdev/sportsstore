@@ -3,3 +3,4 @@ data
 resources
 app.dpd
 npm-debug.log
+node_modules
