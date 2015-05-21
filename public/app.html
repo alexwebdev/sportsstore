@@ -8,7 +8,8 @@
     <link href="bower_components/bootstrap-css/css/bootstrap.css" rel="stylesheet" />
     <link href="bower_components/bootstrap-css/css/bootstrap-theme.css" rel="stylesheet" />
     <script>
-        angular.module("sportsStore", ["customFilters", "cart", "ngRoute"])
+        angular.module("sportsStore", ["customFilters", "superFilters", "cart", "ngRoute"])
+            .constant("startTime", new Date().toLocaleTimeString())
             .config(function($routeProvider) {
 
                 $routeProvider.when('/complete', {
@@ -31,20 +32,42 @@
                     templateUrl: '/views/productList.html'
                 });
 
+            })
+
+            .config(function (startTime) {
+                console.log("Main module config: " + new Date().toLocaleTimeString());
+            })
+
+            .run(function (startTime) {
+                console.log("Main module run: " + new Date().toLocaleTimeString());
             });
     </script>
     <script src="controllers/sportsStore.js"></script>
     <script src="filters/customFilters.js"></script>
+    <script src="filters/superFilters.js"></script>
     <script src="controllers/productListControllers.js"></script>
     <script src="components/cart/cart.js"></script>
     <script src="bower_components/angular-route/angular-route.js"></script>
     <script src="controllers/checkoutControllers.js"></script>
+    <script src="controllers/dayController.js"></script>
+    <script src="directives/highlight.js"></script>
+    <script src="services/days.js"></script>
 </head>
 <body ng-controller="sportsStoreCtrl">
     <div class="navbar navbar-inverse">
         <a class="navbar-brand" href="#">SPORTS STORE</a>
         <cart-summary />
     </div>
+
+
+    <div ng-controller="dayCtrl" style="border:1px solid blue;padding:20px;" highlight="Thursday">
+
+            Today is {{day || 'nie wiadomo co' | dayName}}
+
+    </div>
+
+
+
 
     <div class="alert alert-danger" ng-show="data.error">
         Error ({{data.error.status}}). The product data was not loaded.
